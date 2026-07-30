@@ -7,8 +7,7 @@ const jwt = require("jsonwebtoken");
 const verifyToken = require("./middleware/auth");
 const verifyAdmin = require("./middleware/admin");
 const app = express();
-const { Resend } = require("resend");
-const resend = new Resend(process.env.RESEND_API_KEY);
+const Brevo = require("@getbrevo/brevo");
 app.use(cors());
 app.use(express.json());
 
@@ -440,33 +439,53 @@ app.post("/forgot-password", (req, res) => {
               message: "Failed to save OTP",
             });
           }
-const resend = new Resend(process.env.RESEND_API_KEY);
+const apiInstance = new Brevo.TransactionalEmailsApi();
 
-          try {
-console.log("Sending OTP email to:", email);
-            const emailResponse = await resend.emails.send({
-  from: "onboarding@resend.dev",
-  to: email,
-  subject: "Password Reset OTP",
-  text: `Your password reset OTP is: ${otp}. It is valid for 10 minutes.`,
-});
+apiInstance.setApiKey(
+  Brevo.TransactionalEmailsApiApiKeys.apiKey,
+  process.env.BREVO_API_KEY
+);
 
-console.log("RESEND RESPONSE:", emailResponse);
-            res.json({
-              success: true,
-              message: "OTP sent to your email",
-            });
+try {
+  console.log("Sending OTP email to:", email);
 
-          } catch (error) {
+  const sendSmtpEmail = new Brevo.SendSmtpEmail();
 
-            console.log("Email Error:", error);
+  sendSmtpEmail.subject = "Password Reset OTP";
 
-            res.json({
-              success: false,
-              message: "Failed to send OTP",
-            });
+  sendSmtpEmail.sender = {
+    name: "ShopMart",
+    email: process.env.EMAIL_USER
+  };
 
-          }
+  sendSmtpEmail.to = [
+    {
+      email: email
+    }
+  ];
+
+  sendSmtpEmail.textContent =
+    `Your password reset OTP is: ${otp}. It is valid for 10 minutes.`;
+
+  const response = await apiInstance.sendTransacEmail(sendSmtpEmail);
+
+  console.log("BREVO RESPONSE:", response);
+
+  res.json({
+    success: true,
+    message: "OTP sent to your email",
+  });
+
+} catch (error) {
+
+  console.log("Email Error:", error);
+
+  res.json({
+    success: false,
+    message: "Failed to send OTP",
+  });
+
+}
 
         }
       );
