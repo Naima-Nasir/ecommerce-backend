@@ -439,8 +439,21 @@ app.post("/forgot-password", (req, res) => {
               message: "Failed to save OTP",
             });
           }
+<<<<<<< HEAD
 
          const transporter = nodemailer.createTransport({
+=======
+const transporter = nodemailer.createTransport({
+>>>>>>> 6fa5ecb99af137ea6103f2b423fef91c405e9e47
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
+const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
   secure: false,
