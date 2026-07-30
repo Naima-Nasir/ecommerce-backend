@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 const verifyToken = require("./middleware/auth");
 const verifyAdmin = require("./middleware/admin");
 const nodemailer = require("nodemailer");
-const Brevo = require("@getbrevo/brevo");
+const { BrevoClient } = require("@getbrevo/brevo");
 const app = express();
 
 app.use(cors());
@@ -441,50 +441,52 @@ app.post("/forgot-password", (req, res) => {
               message: "Failed to save OTP",
             });
           }
-const apiInstance = new Brevo.TransactionalEmailsApi();
-
-apiInstance.setApiKey(
-  Brevo.TransactionalEmailsApiApiKeys.apiKey,
-  process.env.BREVO_API_KEY
-);
+const brevo = new BrevoClient({
+  apiKey: process.env.BREVO_API_KEY,
+});
 
 try {
+
   console.log("Sending OTP email to:", email);
 
-  const sendSmtpEmail = new brevo.SendSmtpEmail();
+  const response = await brevo.transactionalEmails.sendTransacEmail({
 
-  sendSmtpEmail.subject = "Password Reset OTP";
+    subject: "Password Reset OTP",
 
-  sendSmtpEmail.sender = {
-    name: "ShopMart",
-    email: process.env.EMAIL_USER
-  };
+    sender: {
+      name: "ShopMart",
+      email: process.env.EMAIL_USER
+    },
 
-  sendSmtpEmail.to = [
-    {
-      email: email
-    }
-  ];
+    to: [
+      {
+        email: email
+      }
+    ],
 
-  sendSmtpEmail.textContent =
-    `Your password reset OTP is: ${otp}. It is valid for 10 minutes.`;
+    textContent:
+      `Your password reset OTP is: ${otp}. It is valid for 10 minutes.`
 
-  const response = await apiInstance.sendTransacEmail(sendSmtpEmail);
+  });
+
 
   console.log("BREVO RESPONSE:", response);
+
 
   res.json({
     success: true,
     message: "OTP sent to your email",
   });
 
-} catch (error) {
+
+} catch(error){
 
   console.log("Email Error:", error);
 
+
   res.json({
-    success: false,
-    message: "Failed to send OTP",
+    success:false,
+    message:"Failed to send OTP"
   });
 
 }
