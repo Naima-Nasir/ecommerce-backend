@@ -6,8 +6,10 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const verifyToken = require("./middleware/auth");
 const verifyAdmin = require("./middleware/admin");
+const nodemailer = require("nodemailer");
+const Brevo = require("@getbrevo/brevo");
 const app = express();
-const brevo = require("@getbrevo/brevo");
+
 app.use(cors());
 app.use(express.json());
 
