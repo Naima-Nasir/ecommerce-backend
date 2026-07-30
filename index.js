@@ -444,13 +444,14 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
           try {
 
-            await resend.emails.send({
+            const emailResponse = await resend.emails.send({
   from: "onboarding@resend.dev",
   to: email,
   subject: "Password Reset OTP",
   text: `Your password reset OTP is: ${otp}. It is valid for 10 minutes.`,
 });
 
+console.log("RESEND RESPONSE:", emailResponse);
             res.json({
               success: true,
               message: "OTP sent to your email",
