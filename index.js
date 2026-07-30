@@ -8,6 +8,7 @@ const verifyToken = require("./middleware/auth");
 const verifyAdmin = require("./middleware/admin");
 const app = express();
 const { Resend } = require("resend");
+const resend = new Resend(process.env.RESEND_API_KEY);
 app.use(cors());
 app.use(express.json());
 
