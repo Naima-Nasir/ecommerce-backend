@@ -439,10 +439,12 @@ app.post("/forgot-password", (req, res) => {
               message: "Failed to save OTP",
             });
           }
-const apiInstance = new brevo.TransactionalEmailsApi();
+const apiInstance = new Brevo.TransactionalEmailsApi();
 
-apiInstance.authentications.apiKey.apiKey =
-  process.env.BREVO_API_KEY;
+apiInstance.setApiKey(
+  Brevo.TransactionalEmailsApiApiKeys.apiKey,
+  process.env.BREVO_API_KEY
+);
 
 try {
   console.log("Sending OTP email to:", email);
