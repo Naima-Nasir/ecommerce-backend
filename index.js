@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 const verifyToken = require("./middleware/auth");
 const verifyAdmin = require("./middleware/admin");
 const app = express();
-const nodemailer = require("nodemailer");
+const { Resend } = require("resend");
 app.use(cors());
 app.use(express.json());
 
@@ -439,26 +439,16 @@ app.post("/forgot-password", (req, res) => {
               message: "Failed to save OTP",
             });
           }
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
-  family: 4,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
           try {
 
-            await transporter.sendMail({
-              from: process.env.EMAIL_USER,
-              to: email,
-              subject: "Password Reset OTP",
-
-              text: `Your password reset OTP is: ${otp}. It is valid for 10 minutes.`,
-            });
+            await resend.emails.send({
+  from: "onboarding@resend.dev",
+  to: email,
+  subject: "Password Reset OTP",
+  text: `Your password reset OTP is: ${otp}. It is valid for 10 minutes.`,
+});
 
             res.json({
               success: true,
