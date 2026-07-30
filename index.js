@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 const verifyToken = require("./middleware/auth");
 const verifyAdmin = require("./middleware/admin");
 const app = express();
-const Brevo = require("@getbrevo/brevo");
+const brevo = require("@getbrevo/brevo");
 app.use(cors());
 app.use(express.json());
 
@@ -439,17 +439,15 @@ app.post("/forgot-password", (req, res) => {
               message: "Failed to save OTP",
             });
           }
-const apiInstance = new Brevo.TransactionalEmailsApi();
+const apiInstance = new brevo.TransactionalEmailsApi();
 
-apiInstance.setApiKey(
-  Brevo.TransactionalEmailsApiApiKeys.apiKey,
-  process.env.BREVO_API_KEY
-);
+apiInstance.authentications.apiKey.apiKey =
+  process.env.BREVO_API_KEY;
 
 try {
   console.log("Sending OTP email to:", email);
 
-  const sendSmtpEmail = new Brevo.SendSmtpEmail();
+  const sendSmtpEmail = new brevo.SendSmtpEmail();
 
   sendSmtpEmail.subject = "Password Reset OTP";
 
@@ -486,7 +484,6 @@ try {
   });
 
 }
-
         }
       );
     }
