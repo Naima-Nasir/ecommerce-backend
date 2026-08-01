@@ -1,12 +1,12 @@
-# 🚀 ShopMart Backend
+# ShopMart Backend
 
 A secure and scalable Node.js + Express.js backend for the **ShopMart Flutter E-commerce Application**. It provides REST APIs for user authentication, product management, order processing, admin dashboard, and email-based password reset.
 
 ---
 
-## ✨ Features
+## Features
 
-### 👤 User APIs
+### User APIs
 
 - User Registration
 - User Login (JWT Authentication)
@@ -24,7 +24,7 @@ A secure and scalable Node.js + Express.js backend for the **ShopMart Flutter E-
 
 ---
 
-### 👨‍💼 Admin APIs
+### Admin APIs
 
 - Admin Dashboard
 - Revenue Statistics
@@ -47,7 +47,7 @@ A secure and scalable Node.js + Express.js backend for the **ShopMart Flutter E-
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
 - Node.js
 - Express.js
@@ -59,7 +59,7 @@ A secure and scalable Node.js + Express.js backend for the **ShopMart Flutter E-
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 ecommerce-backend/
@@ -76,7 +76,7 @@ ecommerce-backend/
 
 ---
 
-## 🔐 Environment Variables
+## Environment Variables
 
 Create a `.env` file with the following variables:
 
@@ -94,7 +94,7 @@ EMAIL_PASS=
 
 
 
-## 🚀 Installation
+## Installation
 
 ```bash
 git clone https://github.com/Naima-Nasir/ecommerce-backend.git
@@ -114,7 +114,7 @@ npm run dev
 
 
 
-## 📡 Main API Modules
+## Main API Modules
 
 - Authentication
 - Products
@@ -128,7 +128,7 @@ npm run dev
 
 
 
-## 🔒 Authentication
+## Authentication
 
 Protected routes use **JWT (JSON Web Token)**.
 
@@ -139,7 +139,7 @@ Authorization: Bearer <your_token>
 ```
 
 
-## 🌍 Deployment
+## Deployment
 
 - Backend Hosted on Railway
 - MySQL Database Hosted Online
@@ -147,7 +147,7 @@ Authorization: Bearer <your_token>
 
 
 
-## 🤝 Connected Frontend
+## Connected Frontend
 
 Flutter Repository:
 
@@ -155,7 +155,7 @@ https://github.com/Naima-Nasir/shopmart-flutter
 
 
 
-## 👩‍💻 Author
+## Author
 
 **Naima Nasir**
 
@@ -163,7 +163,7 @@ Software Engineering Student
 
 
 
-## ⭐ Future Improvements
+## Future Improvements
 
 - Payment Gateway Integration (JazzCash / Easypaisa)
 - Push Notifications
