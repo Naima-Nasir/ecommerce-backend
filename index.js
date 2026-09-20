@@ -9,22 +9,25 @@ const verifyAdmin = require("./middleware/admin");
 const nodemailer = require("nodemailer");
 const { BrevoClient } = require("@getbrevo/brevo");
 const app = express();
-
+const fs = require("fs");
 app.use(cors());
 app.use(express.json());
 
 // =====================
 // 🔌 MYSQL CONNECTION
 // =====================
+
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   port: process.env.DB_PORT,
-  charset: "utf8mb4"
+  charset: "utf8mb4",
+  ssl: {
+    ca: fs.readFileSync("C:/Users/User/Downloads/ca.pem")
+  }
 });
-
 db.connect((err) => {
   if (err) {
     console.log("❌ DB connection failed", err);
